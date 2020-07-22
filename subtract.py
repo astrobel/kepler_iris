@@ -295,12 +295,12 @@ data_hdu = fits.BinTableHDU.from_columns([col1, col2, col3])
 data_hdu.header.update({'TUNIT2':('BJD - 2454833', 'column units: barycenter corrected JD'), 'TUNIT3':('e-/s', 'column units: electrons per second')})
 hdul = fits.HDUList([primary_hdu, data_hdu])
 
-os.chdir(f'./{kic}/')
+os.chdir(f'./{kic}_{centroid}/')
 hdul.writeto(f'hlsp_iris_kepler_phot_kplr{kic}-stitched_kepler_v1.0_lc.fits')
 os.chdir('..')
 
 if centroid == 't':
-    os.chdir(f'./{kic}/')
+    os.chdir(f'./{kic}_{centroid}/')
     np.savetxt(f'kic{kic}_f{factor}_centroids.dat', np.c_[x_cent,y_cent], fmt='%.5f')
     os.chdir('..')
 else:
@@ -333,7 +333,7 @@ maxforplotting = np.max(ampls)
 for j in range(medbins):
     bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-os.chdir(f'./{kic}/')
+os.chdir(f'./{kic}_{centroid}/')
 stardata = open(f'{kic}_{centroid}.dat', 'w')
 stardata.write(f'Teff = {teff[kics==kic].values[0]:.0f} K\n')
 stardata.write(f'high freq noise = {bins[-1]:.2f} ppm\n')
