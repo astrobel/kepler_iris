@@ -392,7 +392,7 @@ if makefigs == True:
         flux_picked = [y for y in flux_pix[range(len(time_pix)), masks[j]]]
         lc = lk.LightCurve(time=time_pix, flux=flux_picked)
         try:
-            pixel_list.append(lc.to_periodogram())
+            pixel_list.append(lc.remove_nans().to_periodogram())
         except IndexError:
             pixel_list.append(None)
 

@@ -234,7 +234,7 @@ maxforplotting = np.max(ampls)
 for j in range(medbins):
     bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-os.chdir(f'./{kic}/')
+os.chdir(f'./{kic}_sap/')
 stardata = open(f'{kic}_sap.dat', 'w')
 stardata.write(f'Teff = {teff[kics==kic].values[0]:.0f} K\n')
 stardata.write(f'high freq noise = {bins[-1]:.2f} ppm\n')
@@ -296,7 +296,7 @@ if makefigs == True:
         flux_picked = [y for y in flux_pix[range(len(time_pix)), masks[j]]]
         lc = lk.LightCurve(time=time_pix, flux=flux_picked)
         try:
-            pixel_list.append(lc.to_periodogram())
+            pixel_list.append(lc.remove_nans().to_periodogram())
         except IndexError:
             pixel_list.append(None)
 
