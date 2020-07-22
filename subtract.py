@@ -456,7 +456,6 @@ if makefigs == True:
     ft.set_xlabel(r'frequency ($\mu$Hz)')
     ft.set_ylabel('amplitude (ppm)')
 
-    plt.tight_layout()
     os.chdir(f'./{kic}_{centroid}/')
     plt.savefig(f'kic{kic}_factor{factor}_{centroid}_summary.png')
     os.chdir('..')
