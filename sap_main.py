@@ -251,7 +251,7 @@ maskcmap = ListedColormap(maskcmap)
 
 if makefigs == True:
 
-    plt.figure(figsize=(15,10))
+    plt.figure(figsize=(15,10), constrained_layout=True)
     grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1])
 
     img = plt.subplot(grid[0:3,0])
@@ -324,8 +324,8 @@ if makefigs == True:
     amp.set_ylabel('median amplitude by bin (ppm)')
 
     # raw flux
-    time = raw[:,0]
-    flux = raw[:,1]
+    time = raw[:,1]
+    flux = raw[:,2]
     for q in range(len(quarterlines)):
         first.axvline(x=quarterlines[q], color='red', linestyle='--', alpha=0.7)
     first.plot(time, flux, 'k.', ms=3)
@@ -334,8 +334,8 @@ if makefigs == True:
     first.set_ylabel('flux')
 
     # fitted flux
-    time = masked[:,0]
-    flux = masked[:,1]
+    time = masked[:,1]
+    flux = masked[:,2]
     smth.plot(time, flux, 'k.', ms=3)
     smth.set_xlim(quarterlines[0], 1600)
     smth.set_xlabel('time (d)')
@@ -360,7 +360,6 @@ if makefigs == True:
     ft.set_xlabel(r'frequency ($\mu$Hz)')
     ft.set_ylabel('amplitude (ppm)')
 
-    plt.tight_layout()
     os.chdir(f'./{kic}_sap/')
     plt.savefig(f'kic{kic}_factor{factor}_mask{i}_sap_summary.png')
     os.chdir('..')
