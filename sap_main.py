@@ -251,7 +251,7 @@ maskcmap = ListedColormap(maskcmap)
 
 if makefigs == True:
 
-    plt.figure(figsize=(15,10), constrained_layout=True)
+    plt.figure(figsize=(15,10))
     grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1])
 
     img = plt.subplot(grid[0:3,0])
@@ -360,6 +360,7 @@ if makefigs == True:
     ft.set_xlabel(r'frequency ($\mu$Hz)')
     ft.set_ylabel('amplitude (ppm)')
 
+    grid.tight_layout(fig)
     os.chdir(f'./{kic}_sap/')
     plt.savefig(f'kic{kic}_factor{factor}_mask{i}_sap_summary.png')
     os.chdir('..')

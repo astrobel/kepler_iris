@@ -350,7 +350,7 @@ maskcmap = ListedColormap(maskcmap)
 
 if makefigs == True:
 
-    fig = plt.figure(figsize=(15,10), constrained_layout=True)
+    fig = plt.figure(figsize=(15,10))
     grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1])
 
     img = plt.subplot(grid[0:3,0])
@@ -456,6 +456,7 @@ if makefigs == True:
     ft.set_xlabel(r'frequency ($\mu$Hz)')
     ft.set_ylabel('amplitude (ppm)')
 
+    grid.tight_layout(fig)
     os.chdir(f'./{kic}_{centroid}/')
     plt.savefig(f'kic{kic}_factor{factor}_{centroid}_summary.png')
     os.chdir('..')
