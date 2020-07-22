@@ -302,8 +302,7 @@ if makefigs == True:
 
     pixels.get_xaxis().set_ticks([])
     pixels.get_yaxis().set_ticks([])
-    if periodogram:
-        pixels.set(xlabel='Frequency', ylabel='Amplitude')
+    pixels.set(xlabel='Frequency', ylabel='Amplitude')
 
     nested_grid = gs.GridSpecFromSubplotSpec(flux_pix.shape[1], flux_pix.shape[2], subplot_spec=pixels, wspace=0, hspace=0)
     for k in range(flux_pix.shape[1]*flux_pix.shape[2]):
