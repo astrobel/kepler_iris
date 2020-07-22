@@ -351,7 +351,7 @@ maskcmap = ListedColormap(maskcmap)
 if makefigs == True:
 
     fig = plt.figure(figsize=(15,10))
-    grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1])
+    grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1], figure=fig)
 
     img = plt.subplot(grid[0:3,0])
     amp = plt.subplot(grid[0:4,1])
