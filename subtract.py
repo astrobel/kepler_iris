@@ -398,6 +398,9 @@ if makefigs == True:
             tt = lc.time
             ff = lc.flux
             ff2, ffit = sm.gausssmooth(tt, ff, 100)
+            print(np.argwhere(np.isnan(tt)))
+            print(np.argwhere(np.isnan(ff2)))
+            sys.exit()
             lc = lk.LightCurve(time=tt, flux=ff2)
             pixel_list.append(lc.remove_nans().to_periodogram())
         except IndexError:
