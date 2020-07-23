@@ -351,7 +351,7 @@ maskcmap = ListedColormap(maskcmap)
 if makefigs == True:
 
     fig = plt.figure(figsize=(15,10))
-    grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1], figure=fig)
+    grid = gs.GridSpec(8,5, width_ratios=[1,2,1.5,1,1])
 
     img = plt.subplot(grid[0:3,0])
     amp = plt.subplot(grid[0:4,1])
@@ -400,7 +400,7 @@ if makefigs == True:
     pixels.get_yaxis().set_ticks([])
     pixels.set(xlabel='Frequency', ylabel='Amplitude')
 
-    nested_grid = gs.GridSpecFromSubplotSpec(flux_pix.shape[1], flux_pix.shape[2], subplot_spec=pixels, wspace=0, hspace=0)
+    nested_grid = gs.GridSpecFromSubplotSpec(flux_pix.shape[1], flux_pix.shape[2], subplot_spec=grid[4:,0:2], wspace=0, hspace=0)
     for k in range(flux_pix.shape[1]*flux_pix.shape[2]):
         if pixel_list[k]:
             x, y = np.unravel_index(k, (flux_pix.shape[1], flux_pix.shape[2]))

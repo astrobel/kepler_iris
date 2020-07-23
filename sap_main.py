@@ -304,7 +304,7 @@ if makefigs == True:
     pixels.get_yaxis().set_ticks([])
     pixels.set(xlabel='Frequency', ylabel='Amplitude')
 
-    nested_grid = gs.GridSpecFromSubplotSpec(flux_pix.shape[1], flux_pix.shape[2], subplot_spec=pixels, wspace=0, hspace=0)
+    nested_grid = gs.GridSpecFromSubplotSpec(flux_pix.shape[1], flux_pix.shape[2], subplot_spec=grid[4:,0:2], wspace=0, hspace=0)
     for k in range(flux_pix.shape[1]*flux_pix.shape[2]):
         if pixel_list[k]:
             x, y = np.unravel_index(k, (flux_pix.shape[1], flux_pix.shape[2]))
