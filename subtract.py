@@ -400,7 +400,7 @@ if makefigs == True:
             ff2, ffit = sm.gausssmooth(tt, ff, 100)
             fff, ttt = nc.nancleaner2d(ff2, tt)
             lc = lk.LightCurve(time=ttt, flux=fff)
-            pixel_list.append(lc.to_periodogram())
+            pixel_list.append(lc.remove_nans().to_periodogram())
         except IndexError:
             pixel_list.append(None)
 
