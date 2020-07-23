@@ -382,6 +382,7 @@ if makefigs == True:
         temp_q = quarterlist[0] # grab first available quarter if no q9
     exec("time_pix = time1_%d" % temp_q)
     exec("flux_pix = flux1_%d" % temp_q)
+    print(time_pix, flux_pix)
 
     masks = np.zeros((flux_pix.shape[1]*flux_pix.shape[2], flux_pix.shape[1], flux_pix.shape[2]), dtype='bool')
     for i in range(flux_pix.shape[1]*flux_pix.shape[2]):
