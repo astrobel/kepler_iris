@@ -382,7 +382,6 @@ if makefigs == True:
         temp_q = quarterlist[0] # grab first available quarter if no q9
     exec("time_pix = time1_%d" % temp_q)
     exec("flux_pix = flux1_%d" % temp_q)
-    print(time_pix, flux_pix)
 
     masks = np.zeros((flux_pix.shape[1]*flux_pix.shape[2], flux_pix.shape[1], flux_pix.shape[2]), dtype='bool')
     for i in range(flux_pix.shape[1]*flux_pix.shape[2]):
@@ -393,7 +392,7 @@ if makefigs == True:
         flux_picked = [y for y in flux_pix[range(len(time_pix)), masks[j]]]
         lc = lk.LightCurve(time=time_pix, flux=flux_picked)
         try:
-            pixel_list.append(lc.remove_nans().to_periodogram())
+            pixel_list.append(lc.remove_nans().flatten().to_periodogram())
         except IndexError:
             pixel_list.append(None)
 
