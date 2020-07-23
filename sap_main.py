@@ -297,6 +297,8 @@ if makefigs == True:
         lc = lk.LightCurve(time=time_pix, flux=flux_picked)
         try:
             pixel_list.append(lc.remove_nans().to_periodogram())
+        except ValueError:
+            pixel_list.append(None) # this error occurs when there are pixels missing and appending none is tantamount to putting a gap there
         except IndexError:
             pixel_list.append(None)
 
