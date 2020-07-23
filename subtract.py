@@ -399,7 +399,7 @@ if makefigs == True:
             ff = lc.flux
             ff2, ffit = sm.gausssmooth(tt, ff, 100)
             lc = lk.LightCurve(time=tt, flux=ff2)
-            pixel_list.append(lc.to_periodogram())
+            pixel_list.append(lc.remove_nans().to_periodogram())
         except IndexError:
             pixel_list.append(None)
 
