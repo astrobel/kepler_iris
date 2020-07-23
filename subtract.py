@@ -394,8 +394,8 @@ if makefigs == True:
         try:
             pixel_list.append(lc.remove_nans().flatten().to_periodogram())
         except ValueError:
-            tt = lc.time.value
-            ff = lc.flux.value
+            tt = lc.time
+            ff = lc.flux
             ff2, ffit = gausssmooth(tt, ff, 100)
             lc = lk.LightCurve(time=tt, flux=ff2)
             pixel_list.append(lc.to_periodogram())
