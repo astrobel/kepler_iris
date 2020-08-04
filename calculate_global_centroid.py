@@ -1,12 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.gridspec as gridspec
-from matplotlib.backends.backend_pdf import PdfPages as pdf
-import matplotlib.colors as colors
-from matplotlib.ticker import MaxNLocator
-from matplotlib.colors import LogNorm
-from cycler import cycler
 from astropy.io import fits as pyfits
 from astropy import wcs
 from astropy.utils.exceptions import AstropyWarning
@@ -19,7 +11,6 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 parser = argparse.ArgumentParser(description='Perform image subtraction on NGC 6791 and NGC 6819 targets.')
 parser.add_argument('-s', '--sfilepath', required=False, default='./superstamps/', type=str, help='File location of superstamps')
 parser.add_argument('-n', '--ngc', required=True, choices=[6791, 6819], type=int, help='Which cluster?')
-parser.add_argument('-p', '--plots', dest='show', default=False, type=bool, help='Show plots?')
 
 params = parser.parse_args()
 
