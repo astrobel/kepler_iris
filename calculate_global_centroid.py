@@ -1,5 +1,5 @@
 import numpy as np
-from astropy.io import fits as pyfits
+from astropy.io import fits
 from astropy import wcs
 from astropy.utils.exceptions import AstropyWarning
 import nancleaner as nc
@@ -52,7 +52,7 @@ for q in qs:
         os.chdir(params.sfilepath) # directory containing superstamps
         for j in searchrange:
             fname = f'kplr1000009{j}-{suffixes[q]}_lpd-targ.fits'
-            hdulist = pyfits.open(fname)
+            hdulist = fits.open(fname)
             hd1 = hdulist[1].header
             table = hdulist[1].data
             hd2 = hdulist[2].header
@@ -89,6 +89,7 @@ for q in qs:
                 globaly = [sum(i) for i in zip(ymed, globaly)]
         except:
             skipcount += 1
+        print(f'{kic} done')
 
     globalx = [i/(len(kiclist)-skipcount) for i in globalx]
     globaly = [i/(len(kiclist)-skipcount) for i in globaly]
