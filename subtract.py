@@ -16,7 +16,7 @@ import subtraction as sub
 import eventfixer as fx
 import fit_and_clip as fc
 import nancleaner as nc
-import os, sys, warnings, argparse
+import os, glob, sys, warnings, argparse
 
 C = ['#e6e7e8','#e5e6e7','#e4e6e7','#e4e5e6','#e3e5e5','#e3e4e5','#e2e4e4','#e2e3e4','#e1e2e3','#e1e2e3','#e0e1e2','#e0e1e1','#dfe0e1','#dfdfe0','#dedfe0','#dededf','#dddedf','#dcddde','#dcdddd','#dbdcdd','#dbdbdc','#dadbdc','#dadadb','#d9dada','#d9d9da','#d8d9d9','#d8d8d9','#d7d7d8','#d7d7d8','#d6d6d7','#d6d6d6','#d5d5d6','#d4d4d5','#d4d4d5','#d3d3d4','#d3d3d3','#d2d2d3','#d2d2d2','#d1d1d2','#d1d0d1','#d0d0d1','#d0cfd0','#cfcfcf','#cfcecf','#cecdce','#cecdce','#cdcccd','#cccccc','#cccbcc','#cbcbcb','#cbcacb','#cac9ca','#cac9ca','#c9c8c9','#c9c8c8','#c8c7c8','#c8c6c7','#c7c6c7','#c7c5c6','#c6c5c5','#c6c4c5','#c5c4c4','#c4c3c4','#c4c2c3','#c3c2c3','#c3c1c2','#c2c0c1','#c1c0c1','#c1bfc0','#c0bebf','#bfbebe','#bfbdbe','#bebcbd','#bdbcbc','#bdbbbc','#bcbabb','#bbbaba','#bbb9ba','#bab8b9','#b9b8b8','#b8b7b8','#b8b6b7','#b7b6b6','#b6b5b6','#b6b4b5','#b5b4b4','#b4b3b4','#b4b2b3','#b3b1b2','#b2b1b2','#b2b0b1','#b1afb0','#b0afb0','#b0aeaf','#afadae','#aeadae','#aeacad','#adabac','#acabab','#acaaab','#aba9aa','#aaa9a9','#aaa8a9','#a9a7a8','#a8a7a7','#a8a6a7','#a7a5a6','#a6a5a5','#a5a4a5','#a5a3a4','#a4a3a3','#a3a2a3','#a3a1a2','#a2a1a1','#a1a0a1','#a19fa0','#a09e9f','#9f9e9f','#9f9d9e','#9e9c9d','#9d9c9d','#9d9b9c','#9c9a9b','#9b9a9b','#9b999a','#9a9899','#999898','#999798','#989697','#979697','#979596','#969596','#969495','#959494','#959394','#949393','#939293','#939292','#929192','#929091','#919090','#918f90','#908f8f','#908e8f','#8f8e8e','#8e8d8e','#8e8d8d','#8d8c8d','#8d8c8c','#8c8b8b','#8c8a8b','#8b8a8a','#8b898a','#8a8989','#898889','#898888','#888788','#888787','#878686','#878586','#868585','#868485','#858484','#848384','#848383','#838283','#838282','#828181','#828181','#818080','#818080','#807f7f','#7f7e7f','#7f7e7e','#7e7d7e','#7e7d7d','#7d7c7c','#7d7c7c','#7c7b7b','#7c7b7b','#7b7a7a','#7a7a7a','#7a7979','#797879','#797878','#787777','#787777','#777676','#767676','#767575','#757575','#757474','#747474','#747373','#747373','#737373','#737272','#737272','#727272','#727171','#727171','#717171','#717070','#717070','#707070','#706f6f','#6f6f6f','#6f6f6f','#6f6e6e','#6e6e6e','#6e6e6e','#6e6d6d','#6d6d6d','#6d6d6d','#6d6c6c','#6c6c6c','#6c6c6c','#6c6b6b','#6b6b6b','#6b6a6a','#6b6a6a','#6a6a6a','#6a6969','#6a6969','#696969','#696868','#686868','#686868','#686767','#676767','#676767','#676666','#666666','#666666','#666565','#656565','#656565','#656464','#646464','#646464','#646363','#636363','#636363','#626262','#626262','#626262','#616161','#616161','#616161','#606060','#606060','#606060','#5f5f5f','#5f5f5f','#5f5f5f','#5e5e5e']
 middling_grey = mpl.colors.ListedColormap(C)
@@ -25,6 +25,7 @@ masks = {0:'1px', 1:'5px', 2:'all', 3:'small', 4:'med', 5:'large'}
 
 warnings.simplefilter('ignore', category=AstropyWarning)
 warnings.simplefilter('ignore', category=UserWarning)
+warnings.simplefilter('ignore', category=lk.utils.LightkurveWarning)
 
 mpl.rc('text', usetex=True)
 mpl.rcParams['text.latex.preamble'] = [
@@ -57,7 +58,7 @@ def magnituder(flux1, time1, refflux, refmag):
     avs = np.nansum(np.nansum(fluxnew, axis=1), axis=1)
     avgflux = np.median(avs)
     if refflux == 0:
-      refflux = avgflux
+        refflux = avgflux
     mag = magnitude(avgflux, refflux, refmag)
 
     return mag, avgflux
@@ -111,10 +112,19 @@ target_ra = ras[kics ==  kic].values[0]
 target_dec = decs[kics == kic].values[0]
 Kp = Kps[kics == kic].values[0]
 
+wd = os.getcwd()
+sd = '/suphys/icol6407/../../import/silo4/icol6407/iris/' # WORK IN PROGRESS CHANGING SAVE DIR... DO CENTROIDS FIRST
+
 try:
+    os.chdir(sd)
     os.mkdir(f'{kic}_{centroid}')
+    os.chdir(wd)
 except FileExistsError:
-    pass
+    os.chdir(f'{sd}{kic}_{centroid}')
+    extant_files = glob.glob('./*.fits')
+    for f in extant_files:
+        os.remove(f)
+    os.chdir(wd)
 
 kern = 100 # for smoothing
 sigma = (factor**2) * 2 # for clipping
@@ -229,9 +239,9 @@ for i, q in enumerate(quarterlist):
     if q < 10:
         writeq = f'0{q}'
 
-    os.chdir(f'./{kic}_{centroid}/')
+    os.chdir(f'{sd}{kic}_{centroid}/')
     hdul.writeto(f'hlsp_iris_kepler_phot_kplr{kic}-q{writeq}_kepler_v1.0_lc.fits')
-    os.chdir('..')
+    os.chdir(wd)
 
     xc = np.r_[xc, x_cent]
     yc = np.r_[yc, y_cent]
@@ -295,14 +305,14 @@ data_hdu = fits.BinTableHDU.from_columns([col1, col2, col3])
 data_hdu.header.update({'TUNIT2':('BJD - 2454833', 'column units: barycenter corrected JD'), 'TUNIT3':('e-/s', 'column units: electrons per second')})
 hdul = fits.HDUList([primary_hdu, data_hdu])
 
-os.chdir(f'./{kic}_{centroid}/')
+os.chdir(f'{sd}{kic}_{centroid}/')
 hdul.writeto(f'hlsp_iris_kepler_phot_kplr{kic}-stitched_kepler_v1.0_lc.fits')
-os.chdir('..')
+os.chdir(wd)
 
 if centroid == 't':
-    os.chdir(f'./{kic}_{centroid}/')
+    os.chdir(f'{sd}{kic}_{centroid}/')
     np.savetxt(f'kic{kic}_f{factor}_centroids.dat', np.c_[x_cent,y_cent], fmt='%.5f')
-    os.chdir('..')
+    os.chdir(wd)
 else:
     pass
 
