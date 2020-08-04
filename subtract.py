@@ -343,7 +343,7 @@ maxforplotting = np.max(ampls)
 for j in range(medbins):
     bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-os.chdir(f'./{kic}_{centroid}/')
+os.chdir(f'{sd}{kic}_{centroid}/')
 stardata = open(f'{kic}_{centroid}.dat', 'w')
 stardata.write(f'Teff = {teff[kics==kic].values[0]:.0f} K\n')
 stardata.write(f'high freq noise = {bins[-1]:.2f} ppm\n')
@@ -351,7 +351,7 @@ stardata.write(f'S/N = {max(ampls)/bins[-1]:.2f}\n')
 stardata.write(f'Kp = {Kp}\n')
 stardata.write(f'crowding magnitude = {mag}\n')
 stardata.close()
-os.chdir('..')
+os.chdir(wd)
 
 cmap = pl.cm.Greys_r
 maskcmap = cmap(np.arange(cmap.N))
@@ -469,9 +469,9 @@ if makefigs == True:
     ft.set_ylabel('amplitude (ppm)')
 
     grid.tight_layout(fig)
-    os.chdir(f'./{kic}_{centroid}/')
+    os.chdir(f'{sd}{kic}_{centroid}/')
     plt.savefig(f'kic{kic}_factor{factor}_{centroid}_summary.png')
-    os.chdir('..')
+    os.chdir(wd)
     if params.interactive == True:
         plt.show()
     else:
