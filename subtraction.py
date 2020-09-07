@@ -116,7 +116,7 @@ def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutd
     for i in range(timespan):
         interpolant = spi.RectBivariateSpline(np.arange(newy), np.arange(newx), re_flux[i,:,:], kx=1, ky=1)
         # interpolant = spi.interp2d(np.arange(newy), np.arange(newx), re_flux[i,:,:], kind='cubic')
-        shifted[i,:,:] = interpolant(np.linspace(0-y_shifts[i], newy-y_shifts[i], newy), np.linspace(0-x_shifts[i], newx-x_shifts[i], newx))
+        shifted[i,:,:] = interpolant(np.linspace(0+y_shifts[i], newy+y_shifts[i], newy), np.linspace(0+x_shifts[i], newx+x_shifts[i], newx))
 
     avgshift = np.nanmean(shifted, axis=0)
 
