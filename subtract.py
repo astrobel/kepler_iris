@@ -230,7 +230,12 @@ for i, q in enumerate(quarterlist):
     hdul = fits.HDUList([primary_hdu, data_hdu])
 
     # for saving things to put in the header of the entire corrected lc fits file
-    if q == np.min(quarterlist):
+    if np.min(quarterlist) == np.max(quarterlist):
+        beginning = fitslist['DATE-BEG']
+        start_time = fitslist['TSTART']
+        ending = fitslist['DATE-END']
+        end_time = fitslist['TSTOP']
+    elif q == np.min(quarterlist):
         beginning = fitslist['DATE-BEG']
         start_time = fitslist['TSTART']
     elif q == np.max(quarterlist):
