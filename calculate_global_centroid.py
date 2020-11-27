@@ -97,7 +97,9 @@ for q in qs:
                 globaly = [sum(i) for i in zip(ymed, globaly)]
         except:
             skipcount += 1
-        print(f'{kic} done: {skipcount} skipped')
+            print(f'{kic} missing quarter {q}')
+        # print(f'{kic} done')
+    print(f'q{q} done')
 
     globalx = [i/(len(kiclist)-skipcount) for i in globalx]
     globaly = [i/(len(kiclist)-skipcount) for i in globaly]
