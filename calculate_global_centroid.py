@@ -65,6 +65,13 @@ for q in qs:
                 y = int(np.round(target_y))
                 flux = table['FLUX']
                 time = table['TIME']
+                qual = table['QUALITY']
+
+                # Remove all manually excluded cadences, e.g. the CMEs in quarter 12
+                qual_decode = [lk.KeplerQualityFlags.decode(i) for i in qual]
+                flux = np.asarray([i for i, j in zip(flux, qual_decode) if 'Manual exclude' not in j])
+                time = np.asarray([i for i, j in zip(time, qual_decode) if 'Manual exclude' not in j])
+
                 stamp = j
                 hdulist.close()
                 break
@@ -89,7 +96,7 @@ for q in qs:
                 globaly = [sum(i) for i in zip(ymed, globaly)]
         except:
             skipcount += 1
-        print(f'{kic} done')
+        print(f'{kic} done: {skipcount} skipped')
 
     globalx = [i/(len(kiclist)-skipcount) for i in globalx]
     globaly = [i/(len(kiclist)-skipcount) for i in globaly]
