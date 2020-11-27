@@ -207,9 +207,9 @@ def cutout(kic, q, sfilepath, cluster, ra, dec, cutoutdims):
 
         # Remove all manually excluded cadences, e.g. the CMEs in quarter 12
         qual_decode = [lk.KeplerQualityFlags.decode(i) for i in qual]
-        flux1 = [i for i, j in zip(flux1, qual_decode) if 'Manual exclude' not in j]
-        time1 = [i for i, j in zip(time1, qual_decode) if 'Manual exclude' not in j]
-        cadence = [i for i, j in zip(cadence, qual_decode) if 'Manual exclude' not in j]
+        flux1 = np.asarray([i for i, j in zip(flux1, qual_decode) if 'Manual exclude' not in j])
+        time1 = np.asarray([i for i, j in zip(time1, qual_decode) if 'Manual exclude' not in j])
+        cadence = np.asarray([i for i, j in zip(cadence, qual_decode) if 'Manual exclude' not in j])
 
     else:
         flux1 = 0
