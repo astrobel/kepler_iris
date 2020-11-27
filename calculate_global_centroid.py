@@ -2,6 +2,7 @@ import numpy as np
 from astropy.io import fits
 from astropy import wcs
 from astropy.utils.exceptions import AstropyWarning
+import lightkurve as lk
 import nancleaner as nc
 import centroid as ct
 import smoothing, os, sys, warnings, argparse
