@@ -1,6 +1,7 @@
 import numpy as np
 from astropy.io import fits as pyfits
 from astropy import wcs
+import lightkurve as lk
 import os, sys
 
 def getflux(fname):
@@ -56,6 +57,7 @@ def cutout(kic, q, sfilepath, cluster, ra, dec, cutoutdims):
         flux_full = table['FLUX']
         time1 = table['TIME']
         cadence = table['CADENCENO']
+        qual = table['QUALITY']
         # xmotion = table['POS_CORR1'] # unused
         # ymotion = table['POS_CORR2']
         hd1 = hdulist1[1].header
@@ -203,12 +205,19 @@ def cutout(kic, q, sfilepath, cluster, ra, dec, cutoutdims):
         else:
             flux1[:, bolster_t:(cutoutdims*2-1)-bolster_b, bolster_l:(cutoutdims*2-1)-bolster_r] = flux_full[:, y-cutoutdims+1+bolster_t:y+cutoutdims-bolster_b, x-cutoutdims+1+bolster_l:x+cutoutdims-bolster_r]
 
+        # Remove all manually excluded cadences, e.g. the CMEs in quarter 12
+        qual_decode = [lk.KeplerQualityFlags.decode(i) for i in qual]
+        flux1 = [i for i, j in zip(flux1, qual_decode) if 'Manual exclude' not in j]
+        time1 = [i for i, j in zip(time1, qual_decode) if 'Manual exclude' not in j]
+        cadence = [i for i, j in zip(cadence, qual_decode) if 'Manual exclude' not in j]
+
     else:
         flux1 = 0
         time1 = 0
         eo = 0
         w = 0
         cadence = 0
+        qual = 0
         fitslist_p = 0
 
     os.chdir(workingdir)
