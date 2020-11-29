@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import outliers as ol
 from astropy.convolution import convolve, Box1DKernel, Gaussian1DKernel
 
