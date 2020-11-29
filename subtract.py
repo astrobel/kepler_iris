@@ -274,6 +274,8 @@ raw = np.delete(raw, 0, axis=0)
 masked = np.delete(masked, 0, axis=0)
 masked[:,2] = masked[:,2]/np.nanmean(means)
 
+print(f'{kic} nothing yet')
+
 hdr = w.to_header()
 
 # hdr = fits.Header()
@@ -347,6 +349,8 @@ ampls *= 1e6
 freqs *= 11.57
 maxforplotting = np.max(ampls)
 
+print(f'{kic} just the FITS files')
+
 # for amplitudes summary plot
 for j in range(medbins):
     bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
@@ -360,6 +364,8 @@ stardata.write(f'Kp = {Kp}\n')
 stardata.write(f'crowding magnitude = {mag}\n')
 stardata.close()
 os.chdir(wd)
+
+print(f'{kic} FITS and dat but no figure')
 
 cmap = pl.cm.Greys_r
 maskcmap = cmap(np.arange(cmap.N))
