@@ -15,7 +15,7 @@ from astropy.utils.exceptions import AstropyWarning
 from astropy.io import fits
 import lightkurve as lk
 import cutouts as cut
-import subtraction as sub
+import sap_photometry as sap
 import eventfixer as fx
 import fit_and_clip as fc
 import nancleaner as nc
