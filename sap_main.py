@@ -118,6 +118,7 @@ try:
     os.mkdir(f'{kic}_sap')
     os.chdir(wd)
 except FileExistsError:
+    os.chdir(wd)
     pass
 
 kern = 100 # for smoothing
