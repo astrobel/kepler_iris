@@ -54,7 +54,6 @@ def sapper(flux1, time1, cadence, q, factor, cutoutdims, isolation):
     workingdir = os.getcwd()
 
     # regridding
-    fluxnew, timenew = nc.nancleaner3d(flux1, time1)
 
     # make mask first before cutting down flux
     mask = gaussmask(factor, flux1.shape[1], flux1.shape[2], isolation)
@@ -62,6 +61,7 @@ def sapper(flux1, time1, cadence, q, factor, cutoutdims, isolation):
     # cut down both mask and flux, i.e. get rid of zeros 
     flux1, mask = zerocutter(flux1, mask, factor)
 
+    fluxnew, timenew = nc.nancleaner3d(flux1, time1)
     dump, newcadence = nc.nancleaner3d(flux1, cadence)
     timespan = fluxnew.shape[0]
     oldy, oldx = fluxnew.shape[1], fluxnew.shape[2]
