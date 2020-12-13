@@ -189,9 +189,9 @@ for i, q in enumerate(quarterlist):
     output, maskarr, avgflux, regridded_base = sap.sapper(flux1, time1, cadence, q, factor, cutoutdims, isolation)
     tosave = pd.DataFrame(data=output)
     fileheader = ['cadence', 'time (BJD-2454833)', 'flux']
-    os.chdir(f'./{kic}_sap/')
+    os.chdir(f'{sd}{kic}_sap/')
     tosave.to_csv(f'kic{kic}_q{q}_{factor}_sap.dat', sep=' ', float_format='%.5f', header=fileheader, index=False)
-    os.chdir('..')
+    os.chdir(wd)
 
     # for column in range(nummasks):
     flux = output[:,2]
@@ -245,7 +245,7 @@ maxforplotting = np.max(ampls)
 for j in range(medbins):
     bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-os.chdir(f'./{kic}_sap/')
+os.chdir(f'{sd}{kic}_sap/')
 stardata = open(f'{kic}_sap.dat', 'w')
 stardata.write(f'Teff = {teff[kics==kic].values[0]:.0f} K\n')
 stardata.write(f'high freq noise = {bins[-1]:.2f} ppm\n')
