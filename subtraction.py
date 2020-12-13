@@ -145,7 +145,7 @@ def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutd
 
     new_flux = np.zeros(lclength)
 
-    ap_av = np.nansum(avgflux*mask) # THIS is the bit that needs to be changed to be about weighting - fixed?
+    ap_av = np.nansum(avgflux*mask) 
     for j in range(lclength):
         placeholder = shifted[j] - avgflux
         aperture = np.nansum(placeholder*mask)
