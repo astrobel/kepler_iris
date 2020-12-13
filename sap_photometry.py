@@ -81,7 +81,6 @@ def sapper(flux1, time1, cadence, q, factor, cutoutdims, isolation):
 
     # mask making
     maskrange = np.nanmax(avgflux) - np.nanmin(avgflux)
-    # maskmax = np.nanmax(avgshift) - 0.5 * maskrange
     maskmin =  np.nanmin(avgflux) + 0.05 * maskrange # cut for background
 
     # annulus
