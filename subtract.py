@@ -194,7 +194,7 @@ for i, q in enumerate(quarterlist):
     exec("w = w_%d" % q)
     exec("eo = eo_%d" % q)
 
-    output, maskarr, avgflux, regridded_base, xc, yc = sub.subtract(flux1, time1, cadence, q, factor, './centroids_old/', centroid, cutoutdims, cluster, isolation)
+    output, maskarr, avgflux, regridded_base, xc, yc = sub.subtract(flux1, time1, cadence, q, factor, './centroids/', centroid, cutoutdims, cluster, isolation)
 
     hdr = w.to_header()
 
