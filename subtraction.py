@@ -50,7 +50,7 @@ def zerocutter(flux, mask, factor): # flux should be time x 5 x 5, mask 5 x 5
 
     return flux, mask
 
-def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutdims, cluster, isolation): # , mask
+def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutdims, cluster, isolation):
 
     workingdir = os.getcwd()
 
@@ -75,7 +75,7 @@ def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutd
     dump, newcadence = nc.nancleaner3d(flux1, cadence)
     timespan = fluxnew.shape[0]
 
-    # regridding
+    # resampling
     oldy, oldx = fluxnew.shape[1], fluxnew.shape[2] # reset dims
     newy, newx = fluxnew.shape[1]*factor, fluxnew.shape[2]*factor
     re_flux = np.zeros((timespan, newy, newx))
@@ -164,4 +164,4 @@ def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutd
 
     # print(f'{q} done')
 
-    return output, mask, avgflux, regridded_base, x_cent, y_cent # prev maskarr
+    return output, mask, avgflux, regridded_base, x_cent, y_cent

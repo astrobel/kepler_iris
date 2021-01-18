@@ -269,7 +269,7 @@ for i, q in enumerate(quarterlist):
     # if eo == 0: # scrapping for pixel plot compatibility
     #     avgflux = np.fliplr(avgflux)
 
-raw = np.delete(raw, 0, axis=0)
+raw = np.delete(raw, 0, axis=0) # remove placeholder zeros
 masked = np.delete(masked, 0, axis=0)
 masked[:,2] = masked[:,2]/np.nanmean(means)
 
