@@ -111,7 +111,8 @@ Kp = Kps[kics == kic].values[0]
 cutoutdims = 3
 
 wd = os.getcwd()
-sd = '/suphys/icol6407/../../import/silo4/icol6407/iris/'
+sd = '/headnode2/icol6407/iris/'
+# sd = '/suphys/icol6407/../../import/silo4/icol6407/iris/'
 
 try:
     os.chdir(sd)
