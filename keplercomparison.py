@@ -36,11 +36,11 @@ sd = '/suphys/icol6407/../../import/silo4/icol6407/iris2/'
 
 quarterlist = np.arange(0,18)
 
-members = np.loadtxt(f'{cluster}comparison.dat', delimiter=',', skiprows=1)
-kics = members[0]
-kep_qs = members[1]
-stamp_qs = members[2]
-signal = members[3]
+members = pd.read_csv(f'{cluster}comparison.csv')
+kics = members['Kepler_ID']
+kep_qs = members['Kep_quarters']
+stamp_qs = members['Stamp_quarters']
+signal = members['Signal']
 
 noise_i = np.zeros(len(kics))
 sn_i = np.zeros(len(kics))
@@ -118,5 +118,6 @@ for n, kic in enumerate(kics):
             sn_i[i] = np.float64(param.split('S/N = ')[1].split('\n')[0])
     os.chdir(wd)
 
-output = np.c_[kics, noise_i, sn_i, noise_k, sn_k]
-np.savetxt(f'{cluster}kepnoise.dat', output, delimiter=',')
+output = {'KIC':kics, 'noise_iris':noise_i, 'sn_iris':sn_i, 'noise_kep':noise_k, 'sn_kep':sn_k}
+out = pd.DataFrame(data=output)
+out.to_csv(f'{cluster}kepnoise.csv')
