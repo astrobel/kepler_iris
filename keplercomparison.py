@@ -62,7 +62,7 @@ for n, kic in enumerate(kics):
 
     for q in quarterlist:
 
-        lc = lk.search_lightcurve(kic, quarter=q).download()
+        lc = lk.search_lightcurvefile(kic, quarter=q).download()
 
         if lc != None:
             flux_n = lc.flux.value
