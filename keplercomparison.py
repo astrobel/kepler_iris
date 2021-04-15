@@ -62,12 +62,11 @@ for n, kic in enumerate(kics):
 
     for q in quarterlist:
 
-        lc = search_lightcurvefile(kic, quarter=q).download()
+        lc = lk.search_lightcurve(kic, quarter=q).download()
 
         if lc != None:
-            table = lc.hdu[1].data
-
-            flux_n, time_n = nc.nancleaner2d(table['SAP_FLUX'], table['TIME'])
+            flux_n = lc.flux.value
+            time_n = lc.time.value
             means_mast.append(np.nanmean(flux_n))
             time, flux = fx.fixer(q, time_n, flux_n, cluster)
             temp = np.c_[time, flux]
