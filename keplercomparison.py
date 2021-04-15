@@ -85,8 +85,6 @@ for n, kic in enumerate(kics):
     medbins = int(280 / 30)
     bins = np.zeros(medbins)
 
-    newdim = regridded_base.shape[0]
-
     time = masked_k[:,0]
     flux = masked_k[:,1]
 
