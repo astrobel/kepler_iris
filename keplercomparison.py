@@ -67,7 +67,7 @@ for n, kic in enumerate(kics):
         if lc != None:
             table = lc.hdu[1].data
             flux_n, time_n = nc.nancleaner2d(table['SAP_FLUX'], table['TIME'])
-            means_mast.append(np.nanmean(flux_n))
+            means_k.append(np.nanmean(flux_n))
             time, flux = fx.fixer(q, time_n, flux_n, cluster)
             temp = np.c_[time, flux]
             raw_k = np.r_[raw_k, temp]
