@@ -47,8 +47,8 @@ sn_i = np.zeros(len(kics))
 noise_k = np.zeros(len(kics))
 sn_k = np.zeros(len(kics))
 
-kern = 100 # for smoothing
-sigma = (factor**2) * 2 # for clipping
+# kern = 100 # for smoothing
+# sigma = (factor**2) * 2 # for clipping
 
 time = []
 x_cent = []
