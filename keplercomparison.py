@@ -102,17 +102,17 @@ for n, kic in enumerate(kics):
     for j in range(medbins):
         bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-    noise_k = bins[-1]
-    sn_k = max(ampls)/bins[-1]
+    noise_k[n] = bins[-1]
+    sn_k[n] = max(ampls)/bins[-1]
 
     # and get other data to put it all in the same place
     os.chdir(f'{sd}{kic}_{centroid}/')
     f = open(f'{kic}_{centroid}.dat')
     for param in f:
         if param.startswith('high'):
-            noise_i[i] = np.float64(param.split('high freq noise = ')[1].split(' ppm')[0])
+            noise_i[n] = np.float64(param.split('high freq noise = ')[1].split(' ppm')[0])
         if param.startswith('S/N'):
-            sn_i[i] = np.float64(param.split('S/N = ')[1].split('\n')[0])
+            sn_i[n] = np.float64(param.split('S/N = ')[1].split('\n')[0])
     os.chdir(wd)
 
 output = {'KIC':kics, 'noise_iris':noise_i, 'sn_iris':sn_i, 'noise_kep':noise_k, 'sn_kep':sn_k}
