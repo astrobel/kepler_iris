@@ -29,17 +29,23 @@ parser.add_argument('-n', '--ngc', required=True, type=int, choices=[6791, 6819]
 params = parser.parse_args()
 
 cluster = params.ngc
+centroid = 'e'
+
+wd = os.getcwd()
+sd = '/suphys/icol6407/../../import/silo4/icol6407/iris2/'
 
 quarterlist = np.arange(0,18)
 
-members = np.loadtxt(f'{cluster}comparison.dat', skiprows=1)
+members = np.loadtxt(f'{cluster}comparison.dat', delimiter=',', skiprows=1)
 kics = members[0]
 kep_qs = members[1]
 stamp_qs = members[2]
 signal = members[3]
 
-noise = np.zeros(len(kics))
-sn = np.zeros(len(kics))
+noise_i = np.zeros(len(kics))
+sn_i = np.zeros(len(kics))
+noise_k = np.zeros(len(kics))
+sn_k = np.zeros(len(kics))
 
 kern = 100 # for smoothing
 sigma = (factor**2) * 2 # for clipping
@@ -74,7 +80,6 @@ for n, kic in enumerate(kics):
     masked_k = np.delete(masked_k, 0, axis=0)
     masked_k[:,1] = masked_k[:,1]/np.nanmean(means_k)
 
-
     ### DATA HANDLING ###
 
     # for amplitude summary plot
@@ -100,7 +105,18 @@ for n, kic in enumerate(kics):
     for j in range(medbins):
         bins[j] = np.median(ampls[(freqs > j*30) & (freqs <= (j+1)*30)])
 
-    noise = bins[-1]
-    sn = max(ampls)/bins[-1]
+    noise_k = bins[-1]
+    sn_k = max(ampls)/bins[-1]
 
-output = np.c_[kics, noise, sn]
+    # and get other data to put it all in the same place
+    os.chdir(f'{sd}{kic}_{centroid}/')
+    f = open(f'{kic}_{centroid}.dat')
+    for param in f:
+        if param.startswith('high'):
+            noise_i[i] = np.float64(param.split('high freq noise = ')[1].split(' ppm')[0])
+        if param.startswith('S/N'):
+            sn_i[i] = np.float64(param.split('S/N = ')[1].split('\n')[0])
+    os.chdir(wd)
+
+output = np.c_[kics, noise_i, sn_i, noise_k, sn_k]
+np.savetxt(f'{cluster}kepnoise.dat', output, delimiter=',')
