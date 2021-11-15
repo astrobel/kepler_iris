@@ -112,13 +112,7 @@ def subtract(flux1, time1, cadence, q, factor, cfilepath, centroid_type, cutoutd
     elif centroid_type == 'e':
         x_cent = 0
         y_cent = 0
-
-    # new vers:
-    # for i in range(timespan):
-    #     interpolant = spi.RectBivariateSpline(np.linspace(0-y_shifts[i], newy-y_shifts[i], newy), np.linspace(0-x_shifts[i], newx-x_shifts[i], newx), re_flux[i,:,:], kx=1, ky=1)
-    #     # interpolant = spi.interp2d(np.arange(newy), np.arange(newx), re_flux[i,:,:], kind='cubic')
-    #     shifted[i,:,:] = interpolant(np.arange(newy), np.arange(newx))
-    
+        
     # old vers:
     for i in range(timespan):
         interpolant = spi.RectBivariateSpline(np.arange(newy), np.arange(newx), re_flux[i,:,:], kx=1, ky=1)
